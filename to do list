@@ -1,0 +1,74 @@
+class Task:
+    def _init_(self, title):
+        self.title = title
+        self.completed = False
+
+    def mark_completed(self):
+        self.completed = True
+
+    def _str_(self):
+        status = '✓' if self.completed else '✗'
+        return f"[{status}] {self.title}"
+
+class TodoList:
+    def _init_(self):
+        self.tasks = []
+
+    def add_task(self, title):
+        task = Task(title)
+        self.tasks.append(task)
+        print(f'Task "{title}" added.')
+
+    def view_tasks(self):
+        if not self.tasks:
+            print("No tasks available.")
+            return
+        for index, task in enumerate(self.tasks):
+            print(f"{index + 1}. {task}")
+
+    def complete_task(self, task_index):
+        if 0 <= task_index < len(self.tasks):
+            self.tasks[task_index].mark_completed()
+            print(f'Task "{self.tasks[task_index].title}" marked as completed.')
+        else:
+            print("Invalid task index.")
+
+    def delete_task(self, task_index):
+        if 0 <= task_index < len(self.tasks):
+            removed_task = self.tasks.pop(task_index)
+            print(f'Task "{removed_task.title}" deleted.')
+        else:
+            print("Invalid task index.")
+
+def main():
+    todo_list = TodoList()
+
+    while True:
+        print("\nTo-Do List:")
+        print("1. Add Task")
+        print("2. View Tasks")
+        print("3. Complete Task")
+        print("4. Delete Task")
+        print("5. Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == '1':
+            title = input("Enter task title: ")
+            todo_list.add_task(title)
+        elif choice == '2':
+            todo_list.view_tasks()
+        elif choice == '3':
+            task_index = int(input("Enter task number to complete: ")) - 1
+            todo_list.complete_task(task_index)
+        elif choice == '4':
+            task_index = int(input("Enter task number to delete: ")) - 1
+            todo_list.delete_task(task_index)
+        elif choice == '5':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+if _name_ == "_main_":
+    main()
